@@ -1,11 +1,12 @@
 //*****************************************************************
-//M. EN C. EDGARDO ADRIÁN FRANCO MARTÍNEZ 
+//CARDELAS GONZÁLEZ JOANTHAN
 //Curso: Análisis de algoritmos
-//(C) Enero 2013
+//(C) Septiembre 2021
 //ESCOM-IPN
 //Ejemplo de medición de tiempo en C y recepción de parametros en C bajo UNIX
 //Compilación: "gcc main.c tiempo.x  -o main(teimpo.c si se tiene la implementación de la libreria o tiempo.o si solo se tiene el codigo objeto)"
 //Ejecución: "./main n" (Linux y MAC OS)
+//ALgoritmo: BUSQUEDA EXPONENCIAL
 //*****************************************************************
 
 //*****************************************************************
@@ -45,6 +46,7 @@ int main (int argc, char* argv[])
 	int n; 	//n determina el tamaño del algorito dado por argumento al ejecutar
 	int i; //Variables para loops
 	int num; //Numero leido del archivo
+
 	//******************************************************************	
 	//Recepción y decodificación de argumentos
 	//******************************************************************	
@@ -61,48 +63,54 @@ int main (int argc, char* argv[])
 		n=atoi(argv[1]);
 	}
 
-	int *array = (int*)malloc(n*sizeof(int));
+	int *array = (int*)malloc(n*sizeof(int)); // Se crea el arreglo donde se almacenarán los números ordenados.
 
-    for(i = 0; i < n; i++){
+	int x[]={322486, 14700764, 3128036, 6337399, 61396, 10393545, 2147445644, 1295390003, 450057883, 187645041, 1980098116, 152503, 5000, 1493283650, 214826, 1843349527, 1360839354, 2109248666, 2147470852, 0}; //variable para el valor a buscar	
+
+    for(i = 0; i < n; i++){ // Se llena el arreglo con números ordenados.
         scanf("%d", &num);
         array[i] = num;
     }
 
-	
-	//******************************************************************	
-	//Iniciar el conteo del tiempo para las evaluaciones de rendimiento
-	//******************************************************************	
-	uswtime(&utime0, &stime0, &wtime0);
-	//******************************************************************
-	
-	//******************************************************************	
-	//Algoritmo
-	//******************************************************************	
-	int posicion = busquedaExponencial(array, 0, n-1, 1365645213);
-	//******************************************************************
+	for(i = 0; i < 20; i++){
+		printf("Se busca a %d.\n", x[i]);
+		//******************************************************************	
+		//Iniciar el conteo del tiempo para las evaluaciones de rendimiento
+		//******************************************************************	
+		uswtime(&utime0, &stime0, &wtime0);
+		//******************************************************************
+		
+		//******************************************************************	
+		//Algoritmo
+		//******************************************************************	
+		int posicion = busquedaExponencial(array, 0, n-1, x[i]);
+		//******************************************************************
 
-	//******************************************************************	
-	//Evaluar los tiempos de ejecución 
-	//******************************************************************
-	uswtime(&utime1, &stime1, &wtime1);
-	
-	//Cálculo del tiempo de ejecución del programa
-	printf("\n");
-	printf("real (Tiempo total)  %.10f s\n",  wtime1 - wtime0);
-	printf("user (Tiempo de procesamiento en CPU) %.10f s\n",  utime1 - utime0);
-	printf("sys (Tiempo en acciónes de E/S)  %.10f s\n",  stime1 - stime0);
-	printf("CPU/Wall   %.10f %% \n",100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
-	printf("\n");
-	
-	//Mostrar los tiempos en formato exponecial
-	printf("\n");
-	printf("real (Tiempo total)  %.10e s\n",  wtime1 - wtime0);
-	printf("user (Tiempo de procesamiento en CPU) %.10e s\n",  utime1 - utime0);
-	printf("sys (Tiempo en acciónes de E/S)  %.10e s\n",  stime1 - stime0);
-	printf("CPU/Wall   %.10f %% \n",100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
-	printf("\n");
-	//******************************************************************
+		//******************************************************************	
+		//Evaluar los tiempos de ejecución 
+		//******************************************************************
+		uswtime(&utime1, &stime1, &wtime1);
 
+		//Resutados del algoritmo.
+		printf("Esta en la posicion %d\n", posicion);
+		
+		//Cálculo del tiempo de ejecución del programa
+		printf("\n");
+		printf("real (Tiempo total)  %.10f s\n",  wtime1 - wtime0);
+		printf("user (Tiempo de procesamiento en CPU) %.10f s\n",  utime1 - utime0);
+		printf("sys (Tiempo en acciónes de E/S)  %.10f s\n",  stime1 - stime0);
+		printf("CPU/Wall   %.10f %% \n",100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
+		printf("\n");
+		
+		//Mostrar los tiempos en formato exponecial
+		printf("\n");
+		printf("real (Tiempo total)  %.10e s\n",  wtime1 - wtime0);
+		printf("user (Tiempo de procesamiento en CPU) %.10e s\n",  utime1 - utime0);
+		printf("sys (Tiempo en acciónes de E/S)  %.10e s\n",  stime1 - stime0);
+		printf("CPU/Wall   %.10f %% \n",100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
+		printf("\n");
+		//******************************************************************
+	}
 	//Terminar programa normalmente	
 	exit (0);	
 }

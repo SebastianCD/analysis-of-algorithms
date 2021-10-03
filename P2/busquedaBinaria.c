@@ -1,11 +1,12 @@
 //*****************************************************************
-//M. EN C. EDGARDO ADRIÁN FRANCO MARTÍNEZ 
+//JONATHAN CARDELAS GONZÁLEZ
 //Curso: Análisis de algoritmos
-//(C) Enero 2013
+//(C) Septiembre 2021
 //ESCOM-IPN
 //Ejemplo de medición de tiempo en C y recepción de parametros en C bajo UNIX
 //Compilación: "gcc main.c tiempo.x  -o main(teimpo.c si se tiene la implementación de la libreria o tiempo.o si solo se tiene el codigo objeto)"
 //Ejecución: "./main n" (Linux y MAC OS)
+//Algoritmo: Busqueda binaria.
 //*****************************************************************
 
 //*****************************************************************
@@ -43,7 +44,7 @@ int main (int argc, char* argv[])
 	int n; 	//n determina el tamaño del algorito dado por argumento al ejecutar
 	int i; //Variables para loops
 	int num; //Valor tomado del archivo
-	int m; //Valor buscado
+
 	//******************************************************************	
 	//Recepción y decodificación de argumentos
 	//******************************************************************	
@@ -56,52 +57,57 @@ int main (int argc, char* argv[])
 	} 
 	//Tomar el segundo argumento como tamaño del algoritmo
 	else
-	{
 		n=atoi(argv[1]);
-		m=atoi(argv[2]);
-	}
+	
 
-	int *array = (int*)malloc(n*sizeof(int));
+	int *array = (int*)malloc(n*sizeof(int)); // Se crea el arreglo donde se almacenarán los números ordenados.
 
-    for(i = 0; i < n; i++){
+	int x[]={322486, 14700764, 3128036, 6337399, 61396, 10393545, 2147445644, 1295390003, 450057883, 187645041, 1980098116, 152503, 5000, 1493283650, 214826, 1843349527, 1360839354, 2109248666, 2147470852, 0}; //variable para el valor a buscar	
+
+    for(i = 0; i < n; i++){ // Se llena el arreglo con números ordenados.
         scanf("%d", &num);
         array[i] = num;
     }
-	
-	//******************************************************************	
-	//Iniciar el conteo del tiempo para las evaluaciones de rendimiento
-	//******************************************************************	
-	uswtime(&utime0, &stime0, &wtime0);
-	//******************************************************************
-	
-	//******************************************************************	
-	//Algoritmo
-	//******************************************************************	
-	int posicion = busquedaBinaria(array, 0, n-1, m);
-	//******************************************************************
 
-	//******************************************************************	
-	//Evaluar los tiempos de ejecución 
-	//******************************************************************
-	uswtime(&utime1, &stime1, &wtime1);
-	
-	//Cálculo del tiempo de ejecución del programa
-	printf("\n");
-	printf("real (Tiempo total)  %.10f s\n",  wtime1 - wtime0);
-	printf("user (Tiempo de procesamiento en CPU) %.10f s\n",  utime1 - utime0);
-	printf("sys (Tiempo en acciónes de E/S)  %.10f s\n",  stime1 - stime0);
-	printf("CPU/Wall   %.10f %% \n",100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
-	printf("\n");
-	
-	//Mostrar los tiempos en formato exponecial
-	printf("\n");
-	printf("real (Tiempo total)  %.10e s\n",  wtime1 - wtime0);
-	printf("user (Tiempo de procesamiento en CPU) %.10e s\n",  utime1 - utime0);
-	printf("sys (Tiempo en acciónes de E/S)  %.10e s\n",  stime1 - stime0);
-	printf("CPU/Wall   %.10f %% \n",100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
-	printf("\n");
-	//******************************************************************
+	for(i = 0; i < 20; i++){
+		printf("Se busca a %d.\n", x[i]);
+		//******************************************************************	
+		//Iniciar el conteo del tiempo para las evaluaciones de rendimiento
+		//******************************************************************	
+		uswtime(&utime0, &stime0, &wtime0);
+		//******************************************************************
+		
+		//******************************************************************	
+		//Algoritmo
+		//******************************************************************	
+		int posicion = busquedaBinaria(array, 0, n-1, x[i]);
+		//******************************************************************
 
+		//******************************************************************	
+		//Evaluar los tiempos de ejecución 
+		//******************************************************************
+		uswtime(&utime1, &stime1, &wtime1);
+		
+		//Resutados del algoritmo.
+		printf("Esta en la posicion %d\n", posicion);
+
+		//Cálculo del tiempo de ejecución del programa
+		printf("\n");
+		printf("real (Tiempo total)  %.10f s\n",  wtime1 - wtime0);
+		printf("user (Tiempo de procesamiento en CPU) %.10f s\n",  utime1 - utime0);
+		printf("sys (Tiempo en acciónes de E/S)  %.10f s\n",  stime1 - stime0);
+		printf("CPU/Wall   %.10f %% \n",100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
+		printf("\n");
+		
+		//Mostrar los tiempos en formato exponecial
+		printf("\n");
+		printf("real (Tiempo total)  %.10e s\n",  wtime1 - wtime0);
+		printf("user (Tiempo de procesamiento en CPU) %.10e s\n",  utime1 - utime0);
+		printf("sys (Tiempo en acciónes de E/S)  %.10e s\n",  stime1 - stime0);
+		printf("CPU/Wall   %.10f %% \n",100.0 * (utime1 - utime0 + stime1 - stime0) / (wtime1 - wtime0));
+		printf("\n");
+		//******************************************************************
+	}
 	//Terminar programa normalmente	
 	exit (0);	
 }
@@ -129,7 +135,7 @@ int busquedaBinaria(int* array, int inicio, int final, int numero){
     while(inicio <= final){
         medio = (inicio + final)/2; //Se calcula el elemento central del arreglo.
 
-        if(array[medio] == numero) //Preguntamos si el valor con index m es el valor buscado.
+        if(array[medio] == numero) //Preguntamos si el valor con index medio es el valor buscado.
             return medio; // Si el valor medio es el valor buscado, entonces se devuelve el index de dicho valor y termina la función.
 
         if(numero < array[medio]) //Preguntamos si el valor buscado está del lado izquiedo.
